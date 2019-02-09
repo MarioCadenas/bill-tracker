@@ -17,7 +17,7 @@ const NavBar = ({ categories, showAddCategory }) => {
           )
           : (<li>No categories</li>)
       }
-      <li 
+      <li
         onClick={triggerShowAddCategory}
         className="p-4 inline bg-grey-lighter hover:bg-grey-light uppercase font-black cursor-pointer"
       >
