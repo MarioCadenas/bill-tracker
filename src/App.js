@@ -10,8 +10,9 @@ const App = () => {
   const [shouldShowAddBill, setShouldShowAddBill] = useState(true);
   const [categories, setCategories] = useState([]);
   const [bills, setBills] = useState([]);
+  const [activeCategory, setActiveCategory] = useState('');
 
-  const loadStorageDate = () => {
+  const loadStorageData = () => {
     const localStorageCategories = JSON.parse(localStorage.getItem('categories'));
     const localStorageBills = JSON.parse(localStorage.getItem('bills'));
 
@@ -26,7 +27,7 @@ const App = () => {
     }
   };
 
-  useEffect(loadStorageDate, []);
+  useEffect(loadStorageData, []);
 
   const showAddCategory = () => setShouldShowAddCategory(true);
   const addCategory = (category) => {
@@ -42,6 +43,17 @@ const App = () => {
     setShouldShowAddBill(false);
     localStorage.setItem('bills', JSON.stringify(updatedBills));
   };
+  const removeBill = (billIndex) => {
+    const updatedBills = bills.filter((value, index) => index !== billIndex);
+    setBills(updatedBills);
+    localStorage.setItem('bills', JSON.stringify(updatedBills));
+  };
+  const activeBills = () => {
+    return bills
+      .filter(bill => activeCategory ? bill.category === activeCategory : true)
+      .sort((a, b) => (new Date(a.date) < new Date(b.date) ? 1 : -1));
+  };
+  const setNewActiveCategory = index => setActiveCategory(index);
 
   return (
     <div className="App">
@@ -52,13 +64,18 @@ const App = () => {
           <AddBill onSubmit={addBill} categories={categories} />
         : (
         <Fragment>
-          <NavBar categories={categories} showAddCategory={showAddCategory} />
+          <NavBar
+            categories={categories}
+            showAddCategory={showAddCategory}
+            activeCategory={activeCategory}
+            setNewActiveCategory={setNewActiveCategory}
+          />
           <div className="container flex">
             <div className="w-1/2">
-              <BillsTable bills={bills} showAddBill={showAddBill} />
+              <BillsTable bills={bills} showAddBill={showAddBill} removeBill={removeBill} />
             </div>
             <div className="w-1/2">
-              <Chart />
+              <Chart bills={activeBills()}/>
             </div>
           </div>
         </Fragment>

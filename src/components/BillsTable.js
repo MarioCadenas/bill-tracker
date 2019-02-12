@@ -1,7 +1,8 @@
 import React from 'react';
 
-const BillsTable = ({ bills, showAddBill }) => {
+const BillsTable = ({ bills, showAddBill, removeBill }) => {
   const triggerShowAddBill = () => showAddBill();
+  const removeBillByIndex = index => removeBill(index);
 
   return (
     <table className="table">
@@ -25,6 +26,9 @@ const BillsTable = ({ bills, showAddBill }) => {
               <td>{new Date(date).toLocaleDateString('es')}</td>
               <td>{`${amount}€`}</td>
               <td>{category}</td>
+              <td>
+                <button onClick={() => removeBillByIndex(index)}>X</button>
+              </td>
             </tr>
           ))
         }
