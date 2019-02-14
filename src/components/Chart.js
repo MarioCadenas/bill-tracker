@@ -23,7 +23,7 @@ const last12Monts = () => {
   const orderedMonths = [];
   let month = today.getMonth() + 1;
 
-  for (const m of months) {
+  for (let i = 0; i < 12; i++) {
     orderedMonths.push(months[month]);
     month === 11 ? (month = 0) : month++;
   }

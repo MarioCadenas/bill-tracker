@@ -48,11 +48,9 @@ const App = () => {
     setBills(updatedBills);
     localStorage.setItem('bills', JSON.stringify(updatedBills));
   };
-  const activeBills = () => {
-    return bills
-      .filter(bill => activeCategory ? bill.category === activeCategory : true)
-      .sort((a, b) => (new Date(a.date) < new Date(b.date) ? 1 : -1));
-  };
+  const activeBills = () => bills
+    .filter(bill => activeCategory ? bill.category === categories[activeCategory] : true)
+    .sort((a, b) => (new Date(a.date) < new Date(b.date) ? 1 : -1));
   const setNewActiveCategory = index => setActiveCategory(index);
 
   return (
